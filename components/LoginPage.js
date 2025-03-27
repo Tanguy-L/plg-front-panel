@@ -16,8 +16,8 @@ export class LoginPage extends HTMLElement {
     const { username, password } = data;
     const result = await Auth.login(username, password);
     if (result) {
-      app.router.go("/players");
       await Players.loadData();
+      app.router.go("/players");
     } else {
       this.errorForm();
     }

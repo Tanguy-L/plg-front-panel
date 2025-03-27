@@ -27,20 +27,6 @@ built using modern web technologies and custom web components.
 - GSAP for Animations
 - Custom Router Implementation
 
-## Project Structure
-
-```
-project-root/
-│
-├── components/           # Custom web components
-│
-├── services/             # Application services
-│
-├── index.html            # Main HTML file
-├── main.js               # Application entry point
-└── style.css             # Global styles
-```
-
 ## Prerequisites
 
 - Modern web browser

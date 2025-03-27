@@ -24,6 +24,13 @@ export class ListPlayers extends HTMLElement {
 
     // FIXME if the cardelement is printed, the tbody is undefined (because we delete it)
     const cardElement = this.root.querySelector("#card-players");
+    // gsap.to(cardElement, {
+    //   opacity: 1,
+    //   duration: 5,
+    //   onComplete: () => {
+    //     console.log("Finish !!!");
+    //   },
+    // });
     // if (!players || players.length === 0) {
     //   console.log("TEST");
     //   cardElement.innerHTML = '<nord-spinner size="xl"></nord-spinner>';
@@ -38,6 +45,36 @@ export class ListPlayers extends HTMLElement {
       row.dataset.id = player.id;
       tbody.appendChild(row);
     });
+
+    if (typeof gsap !== "undefined") {
+      gsap.fromTo(
+        cardElement,
+        {
+          opacity: 0,
+          y: 100,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "power2.out",
+          duration: 2,
+        },
+      );
+      // gsap.fromTo(
+      //   tbody.children,
+      //   {
+      //     opacity: 0,
+      //     y: 20,
+      //   },
+      //   {
+      //     opacity: 1,
+      //     y: 0,
+      //     duration: 0.3,
+      //     stagger: 0.1,
+      //     ease: "power2.out",
+      //   },
+      // );
+    }
   }
 }
 

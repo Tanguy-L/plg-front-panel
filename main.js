@@ -13,7 +13,6 @@ import Store from "./services/Store.js";
 import Players from "./services/Players.js";
 import Teams from "./services/Teams.js";
 import Router from "./services/Router.js";
-import Animation from "./services/Animations.js";
 
 const app = {};
 
@@ -26,8 +25,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   // await Teams.loadData();
   new ModalController();
   app.router.init();
-
-  Animation.animateLandPage();
 
   const loginButton = document.querySelector("#logout");
   loginButton.addEventListener("click", () => {

@@ -1,5 +1,6 @@
 import AUTH from "./Auth.js";
 import Players from "../services/Players.js";
+import Animation from "../services/Animations.js";
 
 const Router = {
   init: async () => {
@@ -8,6 +9,9 @@ const Router = {
         event.preventDefault();
         const url = event.target.getAttribute("href");
         Router.go(url);
+        if (url === "/login") {
+          Animation.animateLandPage();
+        }
       });
     });
 
@@ -16,13 +20,15 @@ const Router = {
     });
 
     const isLogged = AUTH.isAuthenticated();
-    // Router.go("/login");
 
     if (isLogged) {
-      Router.go("/players");
       await Players.loadData();
+      Router.go("/players");
+      const el = document.querySelector("nord-nav-item[href='/players']");
+      el.setAttribute("active", true);
     } else {
       Router.go("/login");
+      Animation.animateLandPage();
     }
   },
   go: (route, addToHistory = true) => {
@@ -93,8 +99,8 @@ const Router = {
     Router.resetCacheLayout(otherLayoutDocument);
     Router.hideLayout(otherLayoutDocument);
 
-    Router.resetCacheLayout(layoutDocument);
     Router.showLayout(layoutDocument);
+    Router.resetCacheLayout(layoutDocument);
 
     Router.addContent(layoutDocument, pageElement);
   },
@@ -123,13 +129,11 @@ const Router = {
   },
 
   hideLayout: (layout) => {
-    layout.style.visibility = "hidden";
+    layout.style.display = "none";
   },
 
   showLayout: (layout) => {
-    if (layout.style.visibility === "hidden") {
-      layout.style.visibility = "visible";
-    }
+    layout.style.display = "inherit";
   },
 };
 

@@ -12,9 +12,13 @@
   opacity: 0;
 }
 
-/*#layout-connected {*/
-/*  visibility: hidden;*/
-/*}*/
+#layout-connected {
+  display: none;
+}
+
+#card-players {
+  opacity: 0;
+}
 
 .title-login span {
   display: inline-block;
