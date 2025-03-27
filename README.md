@@ -65,3 +65,7 @@ Custom router with features:
 ## License
 
 Distributed under the MIT License.
+
+## Todo
+
+- Make custom AUTH event and load data on login
