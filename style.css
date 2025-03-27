@@ -1,0 +1,35 @@
+[type="password"] nord-icon[name="interface-edit-off"],
+[type="text"] nord-icon[name="interface-edit-on"] {
+  display: none;
+}
+
+.title-login {
+  overflow: hidden;
+  position: relative;
+}
+
+#login-container-inputs {
+  opacity: 0;
+}
+
+/*#layout-connected {*/
+/*  visibility: hidden;*/
+/*}*/
+
+.title-login span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.title-login span:nth-of-type(1) {
+  color: #0f69ad;
+}
+
+.title-login span:nth-of-type(2) {
+  color: #f4e000;
+}
+
+.title-login span:nth-of-type(3) {
+  color: #ed3838;
+}
