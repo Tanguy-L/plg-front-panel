@@ -12,13 +12,9 @@ const API = {
   },
 
   fetchTeams: async () => {
-    const result = await AUTH.fetchWithAuth(URL_API + "/teams");
     try {
-      const data = await result.json();
-      if (!data.ok) {
-        throw new Error(`HTTP error! status: ${data.status}`);
-      }
-      return data;
+      const response = await AUTH.fetchWithAuth(URL_API + "/teams");
+      return response;
     } catch (error) {
       console.error(error);
     }

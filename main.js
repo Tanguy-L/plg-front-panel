@@ -23,8 +23,7 @@ app.router = Router;
 window.addEventListener("DOMContentLoaded", async () => {
   window.addEventListener("logged", async (event) => {
     await Players.loadData();
-    console.log("Finish loadData");
-    // await Teams.loadData();
+    await Teams.loadData();
   });
   new ModalController();
   app.router.init();
