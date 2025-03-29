@@ -1,18 +1,16 @@
 import FormHandler from "../services/FormHandler.js";
-import Store from "../services/Store.js";
+import Players from "../services/Players.js";
 
 export class PlayerForm extends HTMLElement {
   constructor() {
     super();
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     const valueSubmit = e.submitter.value;
-    console.log(valueSubmit);
-    console.log("test form");
     e.preventDefault();
     const data = this.formHandler.getValues();
-    console.log(data);
+    await Players.updateMember(data);
   }
 
   updateForm(player) {

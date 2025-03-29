@@ -1,5 +1,6 @@
 import { URL_API } from "../config.js";
-const urlLogin = URL_API + "/api/login";
+import { isEmpty } from "./Helpers.js";
+const urlLogin = URL_API + "/auth/login";
 
 const AUTH = {
   setTokens(accessToken) {
@@ -40,6 +41,7 @@ const AUTH = {
 
       const data = await response.json();
       this.setTokens(data.access_token);
+
       return true;
     } catch (error) {
       console.error("Login error:", error);
@@ -47,14 +49,25 @@ const AUTH = {
     }
   },
 
-  async fetchWithAuth(url, options = {}) {
-    const headers = options.headers || {};
-    headers["Authorization"] = `Bearer ${this.getAccessToken()}`;
-
-    let response = await fetch(url, {
-      ...options,
+  async fetchWithAuth(url, method = "GET", body = {}) {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${this.getAccessToken()}`,
+    };
+    const options = {
+      credentials: "include",
+      method,
       headers,
-    });
+    };
+
+    if (!isEmpty(body)) {
+      options.body = body;
+    }
+
+    let response = await fetch(url, options);
+
+    console.log(response);
+    console.log(response.status);
 
     if (response.status === 401) {
       this.logout();

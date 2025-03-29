@@ -4,7 +4,6 @@ export class RowTeam extends HTMLTableRowElement {
   }
 
   connectedCallback() {
-    console.log("RowPlayer connected");
     const template = document.getElementById("row-team");
     if (!template) {
       console.error("Row team template not found!");
@@ -38,10 +37,10 @@ export class RowTeam extends HTMLTableRowElement {
     const isLoggedInComponent = `<td><nord-badge variant="${typeBadge}">${textIsLoggedIn}</nord-badge></td>`;
 
     const tSideComponent = `<nord-stack direction="horizontal" align-items="center">
-<nord-icon color="var(--n-color-status-danger)" name="medical-death"></nord-icon>
-<nord-badge variant="danger">
-    Terroriste
-  </nord-badge>  </nord-stack>`;
+      <nord-icon color="var(--n-color-status-danger)" name="medical-death"></nord-icon>
+      <nord-badge variant="danger">
+          Terroriste
+        </nord-badge>  </nord-stack>`;
 
     const ctSideComponent = `<nord-stack direction="horizontal" align-items="center"> 
       <nord-icon color="var(--n-color-status-infos)" name="interface-shield"></nord-icon> 

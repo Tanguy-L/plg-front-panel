@@ -1,5 +1,5 @@
 import API from "./API.js";
-import { convertKeysToCamelCase } from "./Helpers.js";
+import { convertKeysToCamelCase, parseMemberDataForDB } from "./Helpers.js";
 
 export const players = {
   loadData: async function () {
@@ -17,7 +17,33 @@ export const players = {
           ...rest,
         };
       });
+      withName.sort((a, b) => a.name.localeCompare(b.name));
       window.app.store.players = withName;
+    } catch (error) {
+      console.error(error);
+      window.app.store.players = [];
+      window.dispatchEvent(new CustomEvent("players-changed"));
+    }
+  },
+
+  updateMember: async function (member) {
+    try {
+      const memberFormatted = parseMemberDataForDB(member);
+      const data = await API.updateMember(memberFormatted);
+      if (data) {
+        await this.loadData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  deleteMember: async function (id) {
+    try {
+      const response = await API.deleteMember(id);
+      if (response) {
+        await this.loadData();
+      }
     } catch (error) {
       console.error(error);
     }

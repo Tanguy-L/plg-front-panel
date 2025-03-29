@@ -1,3 +1,5 @@
+import Players from "../services/Players.js";
+
 export class RowPlayer extends HTMLTableRowElement {
   constructor() {
     super();
@@ -50,6 +52,17 @@ export class RowPlayer extends HTMLTableRowElement {
         infos: player,
         type: "edit-player",
       };
+    });
+
+    const swapButton = this.querySelector(".swap-edit");
+    swapButton.addEventListener("click", async () => {
+      Players.updateMember(player);
+    });
+
+    const deleteButton = this.querySelector(".delete");
+    deleteButton.addEventListener("click", async (event) => {
+      await Players.deleteMember(player.id);
+      console.log("DELETE EVENT");
     });
   }
 }

@@ -5,13 +5,13 @@ import { RowPlayer } from "./components/RowPlayer.js";
 import { RowTeam } from "./components/RowTeam.js";
 import { PlayerForm } from "./components/PlayerForm.js";
 import { LoginPage } from "./components/LoginPage.js";
+import Players from "./services/Players.js";
+import Teams from "./services/Teams.js";
 import AUTH from "./services/Auth.js";
 
 import API from "./services/API.js";
 import ModalController from "./services/ModalController.js";
 import Store from "./services/Store.js";
-import Players from "./services/Players.js";
-import Teams from "./services/Teams.js";
 import Router from "./services/Router.js";
 
 const app = {};
@@ -21,8 +21,11 @@ app.store = Store;
 app.router = Router;
 
 window.addEventListener("DOMContentLoaded", async () => {
-  // await Players.loadData();
-  // await Teams.loadData();
+  window.addEventListener("logged", async (event) => {
+    await Players.loadData();
+    console.log("Finish loadData");
+    // await Teams.loadData();
+  });
   new ModalController();
   app.router.init();
 

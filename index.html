@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin Panel PLG</title>
 
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
-
     <script
       type="module"
       src="https://nordcdn.net/ds/components/3.19.0/index.js"
@@ -54,13 +54,20 @@
               <nord-input type="password" label="Mot de passe" name="password">
                 <nord-button
                   type="button"
+                  id="show-password"
                   class="prevent-modal"
                   slot="end"
                   aria-describedby="password-tooltip"
                   square
                 >
-                  <nord-icon name="interface-edit-on"></nord-icon>
-                  <nord-icon name="interface-edit-off"></nord-icon>
+                  <nord-icon
+                    custom-type="password"
+                    name="interface-edit-on"
+                  ></nord-icon>
+                  <nord-icon
+                    custom-type="password"
+                    name="interface-edit-off"
+                  ></nord-icon>
                 </nord-button>
               </nord-input>
               <nord-button type="submit" variant="primary"
@@ -181,7 +188,7 @@
               justify-content="center"
               align-items="center"
             >
-              <nord-input label="ID" name="id"></nord-input>
+              <nord-input readonly label="ID" name="id"></nord-input>
               <nord-input label="ID Discord" name="discordId"></nord-input>
               <nord-input label="Pseudo" name="name"></nord-input>
               <nord-select name="smokeColor" label="Smoke">
@@ -213,14 +220,14 @@
             <nord-button class="edit-button">
               <nord-icon name="interface-edit" label="Copy"></nord-icon>
             </nord-button>
-            <nord-button>
-              <nord-icon name="arrow-up-down-long" label="Copy"></nord-icon>
+            <nord-button class="swap-edit">
+              <nord-icon name="arrow-up-down-long" label="Swap"></nord-icon>
             </nord-button>
-            <nord-button>
+            <nord-button class="delete">
               <nord-icon
                 color="var(--n-color-status-danger)"
                 name="interface-delete"
-                label="Copy"
+                label="delete"
               ></nord-icon>
             </nord-button>
           </nord-button-group>

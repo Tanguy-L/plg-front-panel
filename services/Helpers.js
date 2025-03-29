@@ -32,3 +32,28 @@ export function convertKeysToCamelCase(obj) {
 
   return result;
 }
+
+export function isEmpty(obj) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+export function parseMemberDataForDB(member) {
+  const { id, discordId, steamId, isLoggedIn, smokeColor, name, weight } =
+    member;
+  const memberParsed = {
+    id,
+    discord_id: discordId,
+    steam_id: steamId,
+    smoke_color: smokeColor,
+    is_logged_in: !isLoggedIn,
+    discord_name: name,
+    weight: weight,
+  };
+  return memberParsed;
+}

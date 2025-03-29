@@ -33,6 +33,7 @@ const target = {
     infos: {},
     type: "",
   },
+  firstRender: true,
 };
 
 const handler = {

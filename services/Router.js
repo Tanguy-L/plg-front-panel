@@ -1,6 +1,6 @@
 import AUTH from "./Auth.js";
 import Players from "../services/Players.js";
-import Animation from "../services/Animations.js";
+import Teams from "../services/Teams.js";
 
 const Router = {
   init: async () => {
@@ -9,9 +9,6 @@ const Router = {
         event.preventDefault();
         const url = event.target.getAttribute("href");
         Router.go(url);
-        if (url === "/login") {
-          Animation.animateLandPage();
-        }
       });
     });
 
@@ -22,13 +19,12 @@ const Router = {
     const isLogged = AUTH.isAuthenticated();
 
     if (isLogged) {
-      await Players.loadData();
       Router.go("/players");
       const el = document.querySelector("nord-nav-item[href='/players']");
       el.setAttribute("active", true);
+      window.dispatchEvent(new CustomEvent("logged"));
     } else {
       Router.go("/login");
-      Animation.animateLandPage();
     }
   },
   go: (route, addToHistory = true) => {
