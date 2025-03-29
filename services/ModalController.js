@@ -39,16 +39,16 @@ export default class ModalController {
     `;
   }
 
-  createLoginContent() {
+  createTeamEditContent(team) {
     return `
-      <h2 slot="header" id="title">Connexion</h2>
-      <login-form></login-form>
+      <h2 slot="header" id="title">Edition d'une équipe</h2>
+      <team-form></team-form>
       <nord-button-group slot="footer" variant="spaced">
-        <nord-button expand form="login-form" value="cancel" @click="${this.closeModal.bind(this)}">
+        <nord-button expand form="player-form" value="cancel" @click="${this.closeModal.bind(this)}">
           Annuler
         </nord-button>
-        <nord-button expand form="login-form" type="submit" value="add" variant="primary">
-          Se connecter
+        <nord-button expand form="player-form" type="submit" value="add" variant="primary">
+          Editer
         </nord-button>
       </nord-button-group>
     `;
@@ -69,8 +69,13 @@ export default class ModalController {
         }
 
         break;
-      case "login":
-        this.modal.innerHTML = this.createLoginContent();
+      case "edit-team":
+        this.modal.innerHTML = this.createTeamEditContent();
+        if (data) {
+          const form = this.modal.querySelector("team-form");
+          form.updateForm(data);
+          console.log(form);
+        }
     }
 
     this.modal.showModal();

@@ -86,18 +86,11 @@
           <nord-nav-item icon="user-multiple" href="/players"
             >Joueurs</nord-nav-item
           >
-
-          <nord-nav-item icon="user-multiple" href="/player-12"
-            >test</nord-nav-item
-          >
           <nord-nav-item icon="keyboard-arrow-up-down" href="/assign"
             >Assignation</nord-nav-item
           >
           <nord-nav-item icon="generic-sheep" href="/teams"
             >Equipes</nord-nav-item
-          >
-          <nord-nav-item icon="interface-add-small" href="/add-team"
-            >Ajout d'une équipe</nord-nav-item
           >
         </nord-nav-group>
       </nord-navigation>
@@ -200,6 +193,29 @@
               </nord-select>
               <nord-input label="ID Steam" name="steamId"></nord-input>
               <nord-input label="Pondération" name="weight"></nord-input>
+            </nord-stack>
+          </form>
+        </nord-stack>
+      </template>
+
+      <template id="team-form-template">
+        <nord-stack>
+          <form method="dialog" id="team-form">
+            <nord-stack
+              direction="vertical"
+              justify-content="center"
+              align-items="center"
+            >
+              <nord-input readonly label="ID" name="id"></nord-input>
+              <!-- <nord-input -->
+              <!--   label="Channel Discord ID" -->
+              <!--   name="channelId" -->
+              <!-- ></nord-input> -->
+              <!-- <nord-input label="Nom" name="name"></nord-input> -->
+              <!-- <nord-select name="side" label="Side"> -->
+              <!--   <option value="Terrorist">Terrorist</option> -->
+              <!--   <option value="CounterTerrorist">CounterTerrorist</option> -->
+              <!-- </nord-select> -->
             </nord-stack>
           </form>
         </nord-stack>
