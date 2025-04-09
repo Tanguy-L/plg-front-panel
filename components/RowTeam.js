@@ -1,3 +1,5 @@
+import Teams from "../services/Teams.js";
+
 export class RowTeam extends HTMLTableRowElement {
   constructor() {
     super();
@@ -69,6 +71,14 @@ export class RowTeam extends HTMLTableRowElement {
         infos: team,
         type: "edit-team",
       };
+    });
+
+    const swapButton = this.querySelector(".swap-edit");
+    swapButton.addEventListener("click", async (event) => {
+      const teamUpdated = {};
+      Object.assign(teamUpdated, team);
+      teamUpdated.isPlaying = !team.isPlaying;
+      Teams.updateTeam(teamUpdated);
     });
   }
 }

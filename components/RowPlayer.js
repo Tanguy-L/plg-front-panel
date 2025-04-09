@@ -6,7 +6,6 @@ export class RowPlayer extends HTMLTableRowElement {
   }
 
   connectedCallback() {
-    console.log("RowPlayer connected");
     const template = document.getElementById("row-player");
     if (!template) {
       console.error("Row player template not found!");
@@ -45,6 +44,9 @@ export class RowPlayer extends HTMLTableRowElement {
     this.querySelector(".is-logged-in").innerHTML = isLoggedInComponent;
     this.querySelector(".smoke-color").textContent = player.smokeColor || "-";
 
+    this.querySelector(".name").style =
+      "font-weight: var(--n-font-weight-strong);";
+
     const editButton = this.querySelector(".edit-button");
     editButton.addEventListener("click", () => {
       window.app.store.modal = {
@@ -56,7 +58,10 @@ export class RowPlayer extends HTMLTableRowElement {
 
     const swapButton = this.querySelector(".swap-edit");
     swapButton.addEventListener("click", async () => {
-      Players.updateMember(player);
+      const playerUpdated = {};
+      Object.assign(playerUpdated, player);
+      playerUpdated.isLoggedIn = !player.isLoggedIn;
+      Players.updateMember(playerUpdated);
     });
 
     const deleteButton = this.querySelector(".delete");

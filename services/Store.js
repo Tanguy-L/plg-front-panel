@@ -28,6 +28,10 @@ const createArrayProxy = (array) => {
 const target = {
   players: createArrayProxy([]),
   teams: createArrayProxy([]),
+  isMembersLogged: true,
+  onlyMembersConnected: false,
+  onlyMembersDisconnected: false,
+  searchMember: "",
   modal: {
     isOpen: false,
     infos: {},

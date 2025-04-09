@@ -51,9 +51,22 @@ export function parseMemberDataForDB(member) {
     discord_id: discordId,
     steam_id: steamId,
     smoke_color: smokeColor,
-    is_logged_in: !isLoggedIn,
+    is_logged_in: Number(isLoggedIn),
     discord_name: name,
     weight: weight,
   };
   return memberParsed;
+}
+
+export function parseTeamDataForDB(team) {
+  const { name, isPlaying, side, channelId, id } = team;
+
+  const teamParsed = {
+    id,
+    name,
+    side,
+    channel_id: channelId,
+    is_playing: Number(isPlaying),
+  };
+  return teamParsed;
 }

@@ -1,4 +1,5 @@
 import FormHandler from "../services/FormHandler.js";
+import Teams from "../services/Teams.js";
 
 export class TeamForm extends HTMLElement {
   constructor() {
@@ -10,6 +11,7 @@ export class TeamForm extends HTMLElement {
     e.preventDefault();
     const data = this.formHandler.getValues();
     console.log(data);
+    await Teams.updateTeam(data);
   }
 
   updateForm(team) {

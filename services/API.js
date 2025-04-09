@@ -41,6 +41,45 @@ const API = {
     }
   },
 
+  toggleConnectionMembers: async (bool) => {
+    const body = {
+      is_logged_in: bool,
+    };
+
+    try {
+      const response = await AUTH.fetchWithAuth(
+        URL_API + `/members/connection`,
+        "PATCH",
+        JSON.stringify(body),
+      );
+      if (response.status == "error") {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  updateTeam: async (team) => {
+    const { id, ...rest } = team;
+    try {
+      const response = await AUTH.fetchWithAuth(
+        URL_API + `/teams/${id}`,
+        "PUT",
+        JSON.stringify(team),
+      );
+
+      const data = response.data;
+      if (response.status == "error") {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteMember: async (id) => {
     try {
       const response = await AUTH.fetchWithAuth(

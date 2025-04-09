@@ -1,3 +1,5 @@
+import Players from "../services/Players.js";
+
 export class ListPlayers extends HTMLElement {
   constructor() {
     super();
@@ -12,14 +14,44 @@ export class ListPlayers extends HTMLElement {
 
   connectedCallback() {
     console.log("RENDER ListPlayers");
+
+    // const toggleOnlyConnected = this.root.querySelector(
+    //   "#only-connected-players",
+    // );
+    // if (toggleOnlyConnected) {
+    //   toggleOnlyConnected.checked = window.app.store.onlyMembersConnected;
+    // }
+    //
+    // const toggleOnlyDisconnected = this.root.querySelector(
+    //   "#only-disconnected-players",
+    // );
+    // if (toggleOnlyDisconnected) {
+    //   toggleOnlyDisconnected.checked = window.app.store.onlyMembersDisconnected;
+    // }
+    //
     if (window.app.store.players && window.app.store.players.length > 0) {
       this.render();
     }
 
     window.addEventListener("players-changed", (event) => {
-      console.log("event players changed");
       this.render();
     });
+  }
+
+  handleFilter(el, storeEl) {
+    if (el) {
+      el.checked = window.app.store[storeEl];
+      if (!el.hasEventListener) {
+        el.hasEventListener = true;
+
+        el.addEventListener("input", (event) => {
+          event.stopPropagation();
+          const value = window.app.store[storeEl];
+          window.app.store[storeEl] = !value;
+          this.render();
+        });
+      }
+    }
   }
 
   showLoadingState() {
@@ -49,9 +81,7 @@ export class ListPlayers extends HTMLElement {
   }
 
   render() {
-    console.log("RENDER CALLED");
     const players = window.app.store.players;
-    console.log(players);
 
     const cardElement = this.root.querySelector("#card-players");
 
@@ -61,6 +91,11 @@ export class ListPlayers extends HTMLElement {
     }
 
     cardElement.innerHTML = `
+      <style>
+      .n-margin-be-m {
+        margin-block-end: var(--n-space-m);
+      }
+      </style>
         <nord-table id="table-players">
           <table>
             <thead>
@@ -93,9 +128,54 @@ export class ListPlayers extends HTMLElement {
       return;
     }
 
+    const toggleConnectBtn = this.root.querySelector("#toggle-connect-players");
+    // const search = this.root.querySelector("#search-players");
+    // search.addEventListener("input", (event) => {
+    //   window.app.store.searchMember = event.target.value;
+    //   this.render();
+    // });
+
+    toggleConnectBtn.addEventListener("click", async () => {
+      const isMembersLogged = window.app.store.isMembersLogged;
+      await Players.toggleConnectionMember(isMembersLogged);
+      const text = !isMembersLogged ? "Connecté" : "Déconnecté";
+      const variant = !isMembersLogged ? "primary" : "danger";
+      toggleConnectBtn.variant = variant;
+      toggleConnectBtn.innerText = text;
+      window.app.store.isMembersLogged = !isMembersLogged;
+    });
+
     tbody.innerHTML = "";
 
-    players.forEach((player) => {
+    const toggleOnlyConnected = this.root.querySelector(
+      "#only-connected-players",
+    );
+
+    this.handleFilter(toggleOnlyConnected, "onlyMembersConnected");
+
+    const toggleOnlyDisconnected = this.root.querySelector(
+      "#only-disconnected-players",
+    );
+
+    this.handleFilter(toggleOnlyDisconnected, "onlyMembersDisconnected");
+
+    let playersFiltered = players;
+
+    if (window.app.store.onlyMembersConnected) {
+      playersFiltered = players.filter((e) => e.isLoggedIn);
+    }
+
+    if (window.app.store.onlyMembersDisconnected) {
+      playersFiltered = playersFiltered.filter((e) => !e.isLoggedIn);
+    }
+
+    // if (window.app.store.searchMember !== "") {
+    //   playersFiltered = playersFiltered.filter((e) =>
+    //     e.name.includes(window.app.store.searchMember),
+    //   );
+    // }
+
+    playersFiltered.forEach((player) => {
       const row = document.createElement("tr", { is: "row-player" });
       row.dataset.id = player.id;
       tbody.appendChild(row);

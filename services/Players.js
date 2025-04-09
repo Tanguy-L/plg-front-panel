@@ -38,6 +38,18 @@ export const players = {
     }
   },
 
+  toggleConnectionMember: async function (isLoggedIn) {
+    try {
+      const data = await API.toggleConnectionMembers(isLoggedIn);
+
+      if (data) {
+        await this.loadData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteMember: async function (id) {
     try {
       const response = await API.deleteMember(id);

@@ -1,5 +1,5 @@
 import API from "./API.js";
-import { convertKeysToCamelCase } from "./Helpers.js";
+import { convertKeysToCamelCase, parseTeamDataForDB } from "./Helpers.js";
 
 export const teams = {
   loadData: async function () {
@@ -13,15 +13,38 @@ export const teams = {
 
     const formattedData = data.map((e) => convertKeysToCamelCase(e));
     const niceFormatTeams = formattedData.map((e) => {
-      const { teamId, ...rest } = e;
+      const { teamId, isPlaying, ...rest } = e;
       return {
+        isPlaying: !!isPlaying,
         id: teamId,
         ...rest,
       };
     });
 
-    console.log(niceFormatTeams);
     window.app.store.teams = niceFormatTeams;
+  },
+
+  updateTeam: async function (team) {
+    try {
+      const teamFormatted = parseTeamDataForDB(team);
+      const data = await API.updateTeam(teamFormatted);
+      if (data) {
+        await this.loadData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
+  deleteMember: async function (id) {
+    try {
+      const response = await API.deleteMember(id);
+      if (response) {
+        await this.loadData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   },
 
   getTeamById: function (id) {

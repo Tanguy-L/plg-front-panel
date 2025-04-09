@@ -115,7 +115,7 @@
             <nord-button class="edit-button">
               <nord-icon name="interface-edit" label="Copy"></nord-icon>
             </nord-button>
-            <nord-button>
+            <nord-button class="swap-edit">
               <nord-icon name="arrow-up-down-long" label="Copy"></nord-icon>
             </nord-button>
             <nord-button>
@@ -130,6 +130,33 @@
       </template>
 
       <template id="template-list-players">
+        <nord-stack
+          direction="horizontal"
+          class="n-margin-be-m"
+          align-items="start"
+        >
+          <nord-button id="toggle-connect-players" variant="primary"
+            >Connecté</nord-button
+          >
+          <nord-checkbox
+            id="only-connected-players"
+            label="Only Connected"
+            value="oui"
+          ></nord-checkbox>
+          <nord-checkbox
+            id="only-disconnected-players"
+            label="Only Disconnected"
+          ></nord-checkbox>
+
+          <nord-input
+            id="search-players"
+            label="Search"
+            hide-label
+            type="search"
+            placeholder="Search"
+          ></nord-input>
+        </nord-stack>
+
         <nord-card padding="none" id="card-players">
           <nord-table id="table-players">
             <table>
@@ -207,15 +234,15 @@
               align-items="center"
             >
               <nord-input readonly label="ID" name="id"></nord-input>
-              <!-- <nord-input -->
-              <!--   label="Channel Discord ID" -->
-              <!--   name="channelId" -->
-              <!-- ></nord-input> -->
-              <!-- <nord-input label="Nom" name="name"></nord-input> -->
-              <!-- <nord-select name="side" label="Side"> -->
-              <!--   <option value="Terrorist">Terrorist</option> -->
-              <!--   <option value="CounterTerrorist">CounterTerrorist</option> -->
-              <!-- </nord-select> -->
+              <nord-input
+                label="Channel Discord ID"
+                name="channelId"
+              ></nord-input>
+              <nord-input label="Nom" name="name"></nord-input>
+              <nord-select name="side" label="Side">
+                <option value="Terrorist">Terrorist</option>
+                <option value="CounterTerrorist">CounterTerrorist</option>
+              </nord-select>
             </nord-stack>
           </form>
         </nord-stack>
