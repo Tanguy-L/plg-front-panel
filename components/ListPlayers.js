@@ -15,20 +15,6 @@ export class ListPlayers extends HTMLElement {
   connectedCallback() {
     console.log("RENDER ListPlayers");
 
-    // const toggleOnlyConnected = this.root.querySelector(
-    //   "#only-connected-players",
-    // );
-    // if (toggleOnlyConnected) {
-    //   toggleOnlyConnected.checked = window.app.store.onlyMembersConnected;
-    // }
-    //
-    // const toggleOnlyDisconnected = this.root.querySelector(
-    //   "#only-disconnected-players",
-    // );
-    // if (toggleOnlyDisconnected) {
-    //   toggleOnlyDisconnected.checked = window.app.store.onlyMembersDisconnected;
-    // }
-    //
     if (window.app.store.players && window.app.store.players.length > 0) {
       this.render();
     }
@@ -82,6 +68,7 @@ export class ListPlayers extends HTMLElement {
 
   render() {
     const players = window.app.store.players;
+    console.log(players);
 
     const cardElement = this.root.querySelector("#card-players");
 
@@ -94,6 +81,10 @@ export class ListPlayers extends HTMLElement {
       <style>
       .n-margin-be-m {
         margin-block-end: var(--n-space-m);
+      }
+      #table-players {
+      overflow:auto;
+      max-height: 75vh;
       }
       </style>
         <nord-table id="table-players">

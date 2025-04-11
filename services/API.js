@@ -80,6 +80,24 @@ const API = {
     }
   },
 
+  updateAssign: async (teamsAssigned) => {
+    try {
+      const response = await AUTH.fetchWithAuth(
+        URL_API + `/team-members`,
+        "PATCH",
+        JSON.stringify(teamsAssigned),
+      );
+
+      const data = response[0];
+      if (response.status == "error") {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteMember: async (id) => {
     try {
       const response = await AUTH.fetchWithAuth(

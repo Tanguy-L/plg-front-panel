@@ -38,6 +38,21 @@ export const players = {
     }
   },
 
+  updateAssign: async function () {
+    const body = {
+      teams: window.app.store.playersAssigned,
+    };
+    try {
+      const data = await API.updateAssign(body);
+      console.log(data);
+      if (data) {
+        await this.loadData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   toggleConnectionMember: async function (isLoggedIn) {
     try {
       const data = await API.toggleConnectionMembers(isLoggedIn);
@@ -59,6 +74,29 @@ export const players = {
     } catch (error) {
       console.error(error);
     }
+  },
+
+  togglePlayerByIdChanged: function (payload) {
+    const { idTeam, idPlayer } = payload;
+    const playersAssigned = window.app.store.playersAssigned;
+    const findTeam = playersAssigned.find((e) => e.id === idTeam);
+
+    if (findTeam) {
+      const isAlreadyMember = findTeam.members.findIndex((e) => e === idPlayer);
+      if (isAlreadyMember === -1) {
+        findTeam.members.push(idPlayer);
+      } else {
+        findTeam.members.splice(isAlreadyMember, 1);
+      }
+      window.app.store.playersAssigned = [...playersAssigned];
+    } else {
+      const newTeam = {
+        id: idTeam,
+        members: [idPlayer],
+      };
+      window.app.store.playersAssigned = [...playersAssigned, newTeam];
+    }
+    console.log(playersAssigned);
   },
 
   getPlayerByID: function (id) {

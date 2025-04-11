@@ -3,6 +3,10 @@
   display: none;
 }
 
+body {
+  overflow: hidden;
+}
+
 .title-login {
   overflow: hidden;
   position: relative;

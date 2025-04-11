@@ -250,6 +250,7 @@
 
       <nord-modal id="modal" aria-labelledby="title"> </nord-modal>
 
+
       <template is="tr" id="row-player">
         <td class="id"></td>
         <td class="discord-id"></td>
@@ -283,22 +284,18 @@
         </nord-card>
       </template>
 
+
+      <template id="template-card-team">
+        <nord-card>
+          <h2 slot="header"></h2>
+
+          <nord-stack>
+
+          </nord-stack>
+
+      </template>
+
       <template id="template-assign">
-        <nord-card>
-          <h2 slot="header">TEAM 1</h2>
-
-          <div
-            id="p1"
-            draggable="true"
-            class="n-padding-m n-color-surface n-box-shadow"
-          >
-            <p>This element is draggable.</p>
-          </div>
-        </nord-card>
-
-        <nord-card>
-          <h2 slot="header">TEAM 2</h2>
-        </nord-card>
       </template>
     </nord-layout>
     <nord-command-menu></nord-command-menu>
