@@ -1,5 +1,13 @@
 import Players from "../services/Players.js";
 
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
 export class ListPlayers extends HTMLElement {
   constructor() {
     super();
@@ -12,9 +20,17 @@ export class ListPlayers extends HTMLElement {
     this.showLoadingState();
   }
 
-  connectedCallback() {
-    console.log("RENDER ListPlayers");
+  handleSearch(query, members) {
+    const filteredMembers = members.filter((member) => {
+      const memberName = member.name.toLowerCase();
+      if (query === "" || memberName.includes(query.toLowerCase())) {
+        return true;
+      }
+    });
+    return filteredMembers;
+  }
 
+  connectedCallback() {
     if (window.app.store.players && window.app.store.players.length > 0) {
       this.render();
     }
@@ -68,8 +84,6 @@ export class ListPlayers extends HTMLElement {
 
   render() {
     const players = window.app.store.players;
-    console.log(players);
-
     const cardElement = this.root.querySelector("#card-players");
 
     if (!cardElement) {
@@ -113,23 +127,53 @@ export class ListPlayers extends HTMLElement {
     }
 
     const tbody = this.root.querySelector("#table-body-players");
+    const table = this.root.querySelector("#table-players");
 
     if (!tbody) {
       console.error("Table body not found after recreation");
       return;
     }
 
+    let scroll_last_post = window.app.store.scrollPosListPlayers;
+    if (scroll_last_post) {
+      table.scrollTop = scroll_last_post;
+    }
+    let ticking = false;
+
+    // TOFIX need to save the scrollY after a rerender
+    table.addEventListener("scroll", function (e) {
+      scroll_last_post = table.scrollTop;
+
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          window.app.store.scrollPosListPlayers = scroll_last_post;
+          ticking = false;
+        });
+      }
+
+      ticking = true;
+    });
+
     const toggleConnectBtn = this.root.querySelector("#toggle-connect-players");
-    // const search = this.root.querySelector("#search-players");
-    // search.addEventListener("input", (event) => {
-    //   window.app.store.searchMember = event.target.value;
+    const search = this.root.querySelector("#search-players");
+    // const debouncedSearch = debounce((e) => {
     //   this.render();
-    // });
+    // }, 300);
+
+    console.log("render");
+    // search.addEventListener("input", debouncedSearch);
+    search.addEventListener("keypress", (e) => {
+      console.log(e.target.value);
+      window.app.store.searchMember = e.target.value;
+      if (e.key === "Enter") {
+        this.render();
+      }
+    });
 
     toggleConnectBtn.addEventListener("click", async () => {
       const isMembersLogged = window.app.store.isMembersLogged;
       await Players.toggleConnectionMember(isMembersLogged);
-      const text = !isMembersLogged ? "Connecté" : "Déconnecté";
+      const text = !isMembersLogged ? "Tous connecté" : "Tous déconnecté";
       const variant = !isMembersLogged ? "primary" : "danger";
       toggleConnectBtn.variant = variant;
       toggleConnectBtn.innerText = text;
@@ -160,11 +204,18 @@ export class ListPlayers extends HTMLElement {
       playersFiltered = playersFiltered.filter((e) => !e.isLoggedIn);
     }
 
-    // if (window.app.store.searchMember !== "") {
-    //   playersFiltered = playersFiltered.filter((e) =>
-    //     e.name.includes(window.app.store.searchMember),
-    //   );
-    // }
+    console.log(window.app.store.searchMember);
+    if (window.app.store.searchMember !== "") {
+      console.log(window.app.store.searchMember);
+      console.log(playersFiltered);
+      playersFiltered = this.handleSearch(
+        window.app.store.searchMember,
+        playersFiltered,
+      );
+      // playersFiltered = playersFiltered.filter((e) =>
+      //   e.name.includes(window.app.store.searchMember),
+      // );
+    }
 
     playersFiltered.forEach((player) => {
       const row = document.createElement("tr", { is: "row-player" });

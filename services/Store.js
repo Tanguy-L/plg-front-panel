@@ -28,6 +28,7 @@ const createArrayProxy = (array) => {
 const target = {
   players: createArrayProxy([]),
   teams: createArrayProxy([]),
+  scrollPosListPlayers: 0,
   playersAssigned: [],
   isMembersLogged: true,
   onlyMembersConnected: false,

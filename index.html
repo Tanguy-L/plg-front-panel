@@ -96,7 +96,7 @@
       </nord-navigation>
 
       <nord-header slot="header">
-        <h1 class="n-typescale-l">Dashboard</h1>
+        <h1 class="n-typescale-l">PLG Admin Panel</h1>
         <nord-button id="logout" variant="primary" slot="end">
           Logout
         </nord-button>
@@ -133,10 +133,10 @@
         <nord-stack
           direction="horizontal"
           class="n-margin-be-m"
-          align-items="start"
+          align-items="center"
         >
           <nord-button id="toggle-connect-players" variant="primary"
-            >Connecté</nord-button
+            >Tous connecté</nord-button
           >
           <nord-checkbox
             id="only-connected-players"
@@ -153,8 +153,12 @@
             label="Search"
             hide-label
             type="search"
-            placeholder="Search"
+            placeholder="Rechercher par nom"
+            aria-describedby="tooltip-search"
           ></nord-input>
+
+          <nord-tooltip id="tooltip-search">Entrée pour valider</nord-tooltip>
+
         </nord-stack>
 
         <nord-card padding="none" id="card-players">

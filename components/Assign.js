@@ -79,10 +79,10 @@ export class Assign extends HTMLElement {
 
   createPlayerElement(el, player) {
     const playerElement = document.createElement("div");
+    playerElement.innerHTML = `${player.weight} - ${player.name}`;
     playerElement.id = player.id;
     playerElement.className = "player";
     playerElement.draggable = true;
-    playerElement.textContent = player.name;
     playerElement.addEventListener("dragstart", this.dragstartHandler);
     playerElement.addEventListener("dragend", this.dragendHandler);
     el.appendChild(playerElement);
@@ -126,7 +126,7 @@ export class Assign extends HTMLElement {
         
       </style>
       
-      <h1>Team Assignment</h1>
+      <h1>Assignement des joueurs</h1>
 
 
         <nord-stack
@@ -182,7 +182,9 @@ export class Assign extends HTMLElement {
         playerContainer.classList.remove("highlight");
       });
 
-      let playersOfTeam = playersWithTeam.filter((e) => e.teamId === team.id);
+      let playersOfTeam = playersWithTeam
+        .filter((e) => e.teamId === team.id)
+        .sort((a, b) => b.weight - a.weight);
 
       // ID FOR NO TEAM TEAM
       // Add members without any teams
