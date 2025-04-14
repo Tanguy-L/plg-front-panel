@@ -26,7 +26,7 @@ const AUTH = {
 
   async login(username, password) {
     try {
-      console.log(urlLogin);
+      
       const response = await fetch(urlLogin, {
         method: "POST",
         headers: {
@@ -66,8 +66,8 @@ const AUTH = {
 
     let response = await fetch(url, options);
 
-    console.log(response);
-    console.log(response.status);
+    
+    
 
     if (response.status === 401) {
       this.logout();

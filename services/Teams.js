@@ -36,6 +36,20 @@ export const teams = {
     }
   },
 
+  generate: async function () {
+    try {
+      const data = await API.generateTeams();
+      
+      
+      
+      if (data) {
+        await this.loadData();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteMember: async function (id) {
     try {
       const response = await API.deleteMember(id);

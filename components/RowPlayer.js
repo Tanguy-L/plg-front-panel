@@ -67,7 +67,7 @@ export class RowPlayer extends HTMLTableRowElement {
     const deleteButton = this.querySelector(".delete");
     deleteButton.addEventListener("click", async (event) => {
       await Players.deleteMember(player.id);
-      console.log("DELETE EVENT");
+      
     });
   }
 }

@@ -20,8 +20,8 @@ export class RowTeam extends HTMLTableRowElement {
 
   render() {
     const teamId = this.dataset.id;
-    console.log("dataset");
-    console.log(this.dataset);
+    
+    
     if (!teamId) {
       console.error("No team ID provided to row-team");
       return;

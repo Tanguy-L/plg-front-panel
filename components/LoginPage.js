@@ -48,7 +48,7 @@ export class LoginPage extends HTMLElement {
     const buttonShowPassword = this.querySelector("#show-password");
 
     buttonShowPassword.addEventListener("click", (event) => {
-      console.log("click");
+      
       inputPassword.type =
         inputPassword.type == "password" ? "text" : "password";
     });

@@ -44,7 +44,7 @@ export const players = {
     };
     try {
       const data = await API.updateAssign(body);
-      console.log(data);
+      
       if (data) {
         await this.loadData();
       }
@@ -96,7 +96,7 @@ export const players = {
       };
       window.app.store.playersAssigned = [...playersAssigned, newTeam];
     }
-    console.log(playersAssigned);
+    
   },
 
   getPlayerByID: function (id) {

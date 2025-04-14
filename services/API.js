@@ -18,7 +18,7 @@ const API = {
     } catch (error) {
       console.error(error);
     }
-    console.log(data);
+    
   },
 
   updateMember: async (member) => {
@@ -29,7 +29,7 @@ const API = {
         "PUT",
         JSON.stringify(member),
       );
-      console.log(response);
+      
 
       const data = response.data;
       if (response.status == "error") {
@@ -98,13 +98,31 @@ const API = {
     }
   },
 
+  generateTeams: async () => {
+    try {
+      const response = await AUTH.fetchWithAuth(
+        URL_API + `/teams/generate`,
+        "POST",
+      );
+
+      const data = response;
+      
+      if (response.status == "error") {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   deleteMember: async (id) => {
     try {
       const response = await AUTH.fetchWithAuth(
         URL_API + `/members/${id}`,
         "DELETE",
       );
-      console.log(response);
+      
       if (response.status == "error") {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

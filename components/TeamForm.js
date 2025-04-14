@@ -10,7 +10,7 @@ export class TeamForm extends HTMLElement {
     const valueSubmit = e.submitter.value;
     e.preventDefault();
     const data = this.formHandler.getValues();
-    console.log(data);
+    
     await Teams.updateTeam(data);
   }
 
@@ -31,7 +31,7 @@ export class TeamForm extends HTMLElement {
 
     this.formHandler = new FormHandler(this.querySelector("form"));
     this.setupFormHandler();
-    console.log("render custom comp");
+    
   }
 
   setupFormHandler() {

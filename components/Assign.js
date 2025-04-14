@@ -1,4 +1,5 @@
 import Players from "../services/Players.js";
+import Teams from "../services/Teams.js";
 
 export class Assign extends HTMLElement {
   constructor() {
@@ -14,7 +15,6 @@ export class Assign extends HTMLElement {
       opacity: 0.8,
       duration: 0.3,
     });
-    console.log("element is dragged");
   }
 
   dragendHandler(ev) {
@@ -33,7 +33,6 @@ export class Assign extends HTMLElement {
 
     while (dropTarget && !dropTarget.classList.contains("player-container")) {
       dropTarget = dropTarget.parentElement;
-      console.log(dropTarget.parentElement);
 
       if (dropTarget.tagName === "BODY" || !dropTarget) {
         return;
@@ -137,6 +136,10 @@ export class Assign extends HTMLElement {
           <nord-button id="assign-save-teams" variant="primary"
             >Sauvegarder</nord-button
           >
+
+          <nord-button id="assign-generate" variant="secondary"
+            >Générer les équipe</nord-button
+          >
         </nord-stack>
 
       <nord-stack justify-content="center" direction="horizontal" class="teams-container" id="teams-container">
@@ -146,6 +149,13 @@ export class Assign extends HTMLElement {
     const buttonSave = this.querySelector("#assign-save-teams");
     buttonSave.addEventListener("click", async () => {
       await Players.updateAssign();
+      this.render();
+    });
+
+    const buttonGenerateTeams = this.querySelector("#assign-generate");
+    buttonGenerateTeams.addEventListener("click", async () => {
+      await Teams.generate();
+      this.render();
     });
 
     // -------------- PLAYERS
@@ -164,11 +174,14 @@ export class Assign extends HTMLElement {
       teamCard.innerHTML = `
           <h2 slot="header">${team.name}</h2>
           <div class="player-container" id="team-${team.id}"></div>
+          <div class="footer n-font-weight-strong" slot="footer"></div>
         `;
       teamsContainer.appendChild(teamCard);
       // ------ END CREATE TEAM CARD
 
       const playerContainer = teamCard.querySelector(".player-container");
+      const footer = teamCard.querySelector(".footer");
+
       playerContainer.addEventListener("drop", (ev) => {
         playerContainer.classList.remove("highlight");
         this.dropHandler(ev);
@@ -185,6 +198,16 @@ export class Assign extends HTMLElement {
       let playersOfTeam = playersWithTeam
         .filter((e) => e.teamId === team.id)
         .sort((a, b) => b.weight - a.weight);
+
+      if (!playersOfTeam.length) {
+        return;
+      }
+
+      let weightTeam = playersOfTeam.reduce((previous, acc) => {
+        return { weight: previous.weight + acc.weight };
+      });
+
+      footer.textContent = `Pondération: ${weightTeam.weight}`;
 
       // ID FOR NO TEAM TEAM
       // Add members without any teams

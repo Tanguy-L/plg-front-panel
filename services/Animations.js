@@ -10,7 +10,6 @@ const Animation = {
         y: 0,
         stagger: 0.05,
         ease: "back.out(1.7)",
-        onComplete: () => console.log("Animation complete!"),
       });
 
       const containerInputs = document.querySelector("#login-container-inputs");

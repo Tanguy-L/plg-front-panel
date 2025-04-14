@@ -160,10 +160,10 @@ export class ListPlayers extends HTMLElement {
     //   this.render();
     // }, 300);
 
-    console.log("render");
+    
     // search.addEventListener("input", debouncedSearch);
     search.addEventListener("keypress", (e) => {
-      console.log(e.target.value);
+      
       window.app.store.searchMember = e.target.value;
       if (e.key === "Enter") {
         this.render();
@@ -204,10 +204,10 @@ export class ListPlayers extends HTMLElement {
       playersFiltered = playersFiltered.filter((e) => !e.isLoggedIn);
     }
 
-    console.log(window.app.store.searchMember);
+    
     if (window.app.store.searchMember !== "") {
-      console.log(window.app.store.searchMember);
-      console.log(playersFiltered);
+      
+      
       playersFiltered = this.handleSearch(
         window.app.store.searchMember,
         playersFiltered,

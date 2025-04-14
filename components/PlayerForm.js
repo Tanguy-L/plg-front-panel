@@ -41,7 +41,7 @@ export class PlayerForm extends HTMLElement {
 
   // render() {
   //   const modalInfos = Store.modal;
-  //   console.log(modalInfos);
+  //   
   // }
 }
 
