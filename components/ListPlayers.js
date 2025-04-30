@@ -30,14 +30,104 @@ export class ListPlayers extends HTMLElement {
     return filteredMembers;
   }
 
+  disconnectedCallback() {
+    // Remove global window listener
+    window.removeEventListener("players-changed", this._playersChangedHandler);
+
+    // Clean up debounce or keypress input
+    const search = this.root.querySelector("#search-players");
+    if (search) {
+      search.removeEventListener("keypress", this._searchKeypressHandler);
+    }
+
+    // Clean up scroll listener
+    const table = this.root.querySelector("#table-players");
+    if (table && this._scrollHandler) {
+      table.removeEventListener("scroll", this._scrollHandler);
+    }
+
+    // Remove toggleConnectBtn listener
+    const toggleConnectBtn = this.root.querySelector("#toggle-connect-players");
+    if (toggleConnectBtn) {
+      toggleConnectBtn.removeEventListener("click", this._toggleConnectHandler);
+    }
+
+    // Remove checkbox filter listeners
+    const toggleOnlyConnected = this.root.querySelector(
+      "#only-connected-players",
+    );
+    if (toggleOnlyConnected && toggleOnlyConnected.hasEventListener) {
+      toggleOnlyConnected.removeEventListener(
+        "input",
+        this._connectedFilterHandler,
+      );
+    }
+
+    const toggleOnlyDisconnected = this.root.querySelector(
+      "#only-disconnected-players",
+    );
+    if (toggleOnlyDisconnected && toggleOnlyDisconnected.hasEventListener) {
+      toggleOnlyDisconnected.removeEventListener(
+        "input",
+        this._disconnectedFilterHandler,
+      );
+    }
+  }
+
   connectedCallback() {
+    this._playersChangedHandler = () => this.render();
+    this._searchKeypressHandler = (e) => {
+      window.app.store.searchMember = e.target.value;
+      if (e.key === "Enter") {
+        this.render();
+      }
+    };
+    this._toggleConnectHandler = async () => {
+      const isMembersLogged = window.app.store.isMembersLogged;
+      await Players.toggleConnectionMember(isMembersLogged);
+      const text = !isMembersLogged ? "Tous connecté" : "Tous déconnecté";
+      const variant = !isMembersLogged ? "primary" : "danger";
+      const btn = this.root.querySelector("#toggle-connect-players");
+      if (btn) {
+        btn.variant = variant;
+        btn.innerText = text;
+      }
+      window.app.store.isMembersLogged = !isMembersLogged;
+    };
+    this._scrollHandler = (e) => {
+      const table = this.root.querySelector("#table-players");
+      if (!table) return;
+
+      const scroll_last_post = table.scrollTop;
+      if (!this._ticking) {
+        window.requestAnimationFrame(() => {
+          window.app.store.scrollPosListPlayers = scroll_last_post;
+          this._ticking = false;
+        });
+      }
+      this._ticking = true;
+    };
+
+    // These should also be bound/stored for removal
+    this._connectedFilterHandler = (event) => {
+      event.stopPropagation();
+      const value = window.app.store.onlyMembersConnected;
+      window.app.store.onlyMembersConnected = !value;
+      this.render();
+    };
+
+    this._disconnectedFilterHandler = (event) => {
+      event.stopPropagation();
+      const value = window.app.store.onlyMembersDisconnected;
+      window.app.store.onlyMembersDisconnected = !value;
+      this.render();
+    };
+
     if (window.app.store.players && window.app.store.players.length > 0) {
       this.render();
     }
 
-    window.addEventListener("players-changed", (event) => {
-      this.render();
-    });
+    window.addEventListener("players-changed", this._playersChangedHandler);
   }
 
   handleFilter(el, storeEl) {
@@ -141,42 +231,13 @@ export class ListPlayers extends HTMLElement {
     let ticking = false;
 
     // TOFIX need to save the scrollY after a rerender
-    table.addEventListener("scroll", function (e) {
-      scroll_last_post = table.scrollTop;
-
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          window.app.store.scrollPosListPlayers = scroll_last_post;
-          ticking = false;
-        });
-      }
-
-      ticking = true;
-    });
+    table.addEventListener("scroll", this._scrollHandler);
 
     const toggleConnectBtn = this.root.querySelector("#toggle-connect-players");
     const search = this.root.querySelector("#search-players");
-    // const debouncedSearch = debounce((e) => {
-    //   this.render();
-    // }, 300);
 
-    // search.addEventListener("input", debouncedSearch);
-    search.addEventListener("keypress", (e) => {
-      window.app.store.searchMember = e.target.value;
-      if (e.key === "Enter") {
-        this.render();
-      }
-    });
-
-    toggleConnectBtn.addEventListener("click", async () => {
-      const isMembersLogged = window.app.store.isMembersLogged;
-      await Players.toggleConnectionMember(isMembersLogged);
-      const text = !isMembersLogged ? "Tous connecté" : "Tous déconnecté";
-      const variant = !isMembersLogged ? "primary" : "danger";
-      toggleConnectBtn.variant = variant;
-      toggleConnectBtn.innerText = text;
-      window.app.store.isMembersLogged = !isMembersLogged;
-    });
+    search.addEventListener("keypress", (e) => this._searchKeypressHandler);
+    toggleConnectBtn.addEventListener("click", this._toggleConnectHandler);
 
     tbody.innerHTML = "";
 
@@ -184,13 +245,17 @@ export class ListPlayers extends HTMLElement {
       "#only-connected-players",
     );
 
-    this.handleFilter(toggleOnlyConnected, "onlyMembersConnected");
-
     const toggleOnlyDisconnected = this.root.querySelector(
       "#only-disconnected-players",
     );
-
-    this.handleFilter(toggleOnlyDisconnected, "onlyMembersDisconnected");
+    toggleOnlyConnected?.addEventListener(
+      "input",
+      this._connectedFilterHandler,
+    );
+    toggleOnlyDisconnected?.addEventListener(
+      "input",
+      this._disconnectedFilterHandler,
+    );
 
     let playersFiltered = players;
 

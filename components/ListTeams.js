@@ -17,6 +17,11 @@ export class ListTeams extends HTMLElement {
     });
   }
 
+  disconnectedCallback() {
+    // Remove global window listener
+    window.removeEventListener("teams-changed", this._playersChangedHandler);
+  }
+
   render() {
     const teams = window.app.store.teams;
 

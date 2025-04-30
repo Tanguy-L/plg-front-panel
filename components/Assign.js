@@ -149,13 +149,13 @@ export class Assign extends HTMLElement {
     const buttonSave = this.querySelector("#assign-save-teams");
     buttonSave.addEventListener("click", async () => {
       await Players.updateAssign();
-      this.render();
+      await Players.loadData();
     });
 
     const buttonGenerateTeams = this.querySelector("#assign-generate");
     buttonGenerateTeams.addEventListener("click", async () => {
       await Teams.generate();
-      this.render();
+      await Players.loadData();
     });
 
     // -------------- PLAYERS

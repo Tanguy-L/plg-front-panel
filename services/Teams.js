@@ -39,9 +39,7 @@ export const teams = {
   generate: async function () {
     try {
       const data = await API.generateTeams();
-      
-      
-      
+
       if (data) {
         await this.loadData();
       }
