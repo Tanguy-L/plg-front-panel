@@ -9,8 +9,19 @@ export class PlayerForm extends HTMLElement {
   async handleSubmit(e) {
     const valueSubmit = e.submitter.value;
     e.preventDefault();
-    const data = this.formHandler.getValues();
-    await Players.updateMember(data);
+    if (valueSubmit === "add") {
+      const data = this.formHandler.getValues();
+      if (!data.isLoggedIn) {
+        data.isLoggedIn = false;
+      } else {
+        data.isLoggedIn = true;
+      }
+      await Players.updateMember(data);
+      return;
+    }
+
+    if (valueSubmit === "cancel") {
+    }
   }
 
   updateForm(player) {
@@ -38,11 +49,6 @@ export class PlayerForm extends HTMLElement {
     const form = this.querySelector("form");
     form.addEventListener("submit", (e) => this.handleSubmit(e));
   }
-
-  // render() {
-  //   const modalInfos = Store.modal;
-  //   
-  // }
 }
 
 customElements.define("player-form", PlayerForm);

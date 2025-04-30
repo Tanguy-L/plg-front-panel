@@ -106,9 +106,9 @@ export class ListPlayers extends HTMLElement {
             <thead>
               <tr>
                 <th>id</th>
+              <th>name</th>
                 <th>discordId</th>
                 <th>steamId</th>
-                <th>name</th>
                 <th>weight</th>
                 <th>isLoggedIn</th>
                 <th>smokeColor</th>
@@ -160,10 +160,8 @@ export class ListPlayers extends HTMLElement {
     //   this.render();
     // }, 300);
 
-    
     // search.addEventListener("input", debouncedSearch);
     search.addEventListener("keypress", (e) => {
-      
       window.app.store.searchMember = e.target.value;
       if (e.key === "Enter") {
         this.render();
@@ -204,10 +202,7 @@ export class ListPlayers extends HTMLElement {
       playersFiltered = playersFiltered.filter((e) => !e.isLoggedIn);
     }
 
-    
     if (window.app.store.searchMember !== "") {
-      
-      
       playersFiltered = this.handleSearch(
         window.app.store.searchMember,
         playersFiltered,

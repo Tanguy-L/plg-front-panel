@@ -3,18 +3,13 @@ export default class ModalController {
     this.modal = document.querySelector("#modal");
     this.setupListeners();
     this.currentContent = null;
-    this.modal.addEventListener("cancel", (e) => {
-      
-    });
-    this.modal.addEventListener("close", (e) => {
-      
-    });
+    this.modal.addEventListener("cancel", (e) => {});
+    this.modal.addEventListener("close", (e) => {});
   }
 
   setupListeners() {
     window.addEventListener("event-modal-changed", (event) => {
       const { isOpen, type, infos } = event.detail;
-      
 
       if (isOpen) {
         this.openModal(type, infos);
@@ -57,15 +52,12 @@ export default class ModalController {
   openModal(type, data) {
     this.cleanup();
 
-    
-
     switch (type) {
       case "edit-player":
         this.modal.innerHTML = this.createPlayerEditContent();
         if (data) {
           const form = this.modal.querySelector("player-form");
           form.updateForm(data);
-          
         }
 
         break;
@@ -74,7 +66,6 @@ export default class ModalController {
         if (data) {
           const form = this.modal.querySelector("team-form");
           form.updateForm(data);
-          
         }
     }
 

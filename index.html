@@ -167,9 +167,9 @@
               <thead>
                 <tr>
                   <th>id</th>
+                  <th>name</th>
                   <th>discordId</th>
                   <th>steamId</th>
-                  <th>name</th>
                   <th>weight</th>
                   <th>isLoggedIn</th>
                   <th>smokeColor</th>
@@ -224,6 +224,7 @@
               </nord-select>
               <nord-input label="ID Steam" name="steamId"></nord-input>
               <nord-input label="Pondération" name="weight"></nord-input>
+              <nord-checkbox value="connected" form="player-form" label="Connecté" name="isLoggedIn"></nord-checkbox>
             </nord-stack>
           </form>
         </nord-stack>
@@ -257,9 +258,9 @@
 
       <template is="tr" id="row-player">
         <td class="id"></td>
+        <td class="name"></td>
         <td class="discord-id"></td>
         <td class="steam-id"></td>
-        <td class="name"></td>
         <td class="weight"></td>
         <td class="is-logged-in"></td>
         <td class="smoke-color"></td>
