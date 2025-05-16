@@ -59,7 +59,7 @@ export function parseMemberDataForDB(member) {
 }
 
 export function parseTeamDataForDB(team) {
-  const { name, isPlaying, side, channelId, id } = team;
+  const { name, isPlaying, side, channelId, id, ...rest } = team;
 
   const teamParsed = {
     id,
@@ -67,6 +67,7 @@ export function parseTeamDataForDB(team) {
     side,
     channel_id: channelId,
     is_playing: Number(isPlaying),
+    ...rest,
   };
   return teamParsed;
 }

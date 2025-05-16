@@ -25,7 +25,9 @@ class FormHandler {
   // Set form values from an object
   setValues(data) {
     Object.entries(data).forEach(([name, value]) => {
+      console.log(name);
       const input = this.form.querySelector(`[name="${name}"]`);
+      console.log(input.nodeName);
       if (input.nodeName === "NORD-CHECKBOX") {
         input.checked = !!value;
         return;

@@ -20,8 +20,7 @@ export class RowTeam extends HTMLTableRowElement {
 
   render() {
     const teamId = this.dataset.id;
-    
-    
+
     if (!teamId) {
       console.error("No team ID provided to row-team");
       return;
@@ -63,6 +62,7 @@ export class RowTeam extends HTMLTableRowElement {
     this.querySelector(".channel").textContent = team.channelId || "-";
     this.querySelector(".side").innerHTML = sideComponent;
     this.querySelector(".is-playing").innerHTML = isLoggedInComponent;
+    this.querySelector(".hostname").innerHTML = team.hostname || "-";
 
     const editButton = this.querySelector(".edit-button");
     editButton.addEventListener("click", () => {

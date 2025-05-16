@@ -110,6 +110,7 @@
         <td class="channel"></td>
         <td class="side"></td>
         <td class="is-playing"></td>
+        <td class="hostname"></td>
         <td>
           <nord-button-group variant="spaced" wrap>
             <nord-button class="edit-button">
@@ -194,6 +195,7 @@
                   <th>Channel</th>
                   <th>Side</th>
                   <th>Connecté</th>
+                  <th>Nom Serveur</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -244,6 +246,8 @@
                 name="channelId"
               ></nord-input>
               <nord-input label="Nom" name="name"></nord-input>
+              <nord-input label="Nom Serveur" name="hostname"></nord-input>
+              <nord-checkbox value="connected" form="player-form" label="Connecté" name="isPlaying"></nord-checkbox>
               <nord-select name="side" label="Side">
                 <option value="Terrorist">Terrorist</option>
                 <option value="CounterTerrorist">CounterTerrorist</option>

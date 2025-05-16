@@ -10,17 +10,24 @@ export class TeamForm extends HTMLElement {
     const valueSubmit = e.submitter.value;
     e.preventDefault();
     const data = this.formHandler.getValues();
-    
+    if (!data.isLoggedIn) {
+      data.isPlaying = false;
+    } else {
+      data.isPlaying = true;
+    }
+
     await Teams.updateTeam(data);
   }
 
   updateForm(team) {
+    console.log(team);
     this.formHandler.setValues({
       id: team.id,
       channelId: team.channelId,
       name: team.name,
       isPlaying: team.isPlaying,
       side: team.side,
+      hostname: team.hostname,
     });
   }
 
@@ -31,7 +38,6 @@ export class TeamForm extends HTMLElement {
 
     this.formHandler = new FormHandler(this.querySelector("form"));
     this.setupFormHandler();
-    
   }
 
   setupFormHandler() {
